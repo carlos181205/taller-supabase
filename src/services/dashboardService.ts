@@ -14,7 +14,7 @@ export const dashboardService = {
     const pendientes   = total - completadas
     const porcentaje   = total > 0 ? Math.round((completadas / total) * 100) : 0
     const hoy          = new Date().toISOString().split('T')[0]
-    const creadasHoy   = data!.filter(t => t.created_at.startsWith(hoy)).length
+    const creadasHoy   = data!.filter(t => (t.created_at ?? '').startsWith(hoy)).length
 
     return { total, completadas, pendientes, porcentaje, creadasHoy }
   },
@@ -31,10 +31,9 @@ export const dashboardService = {
       .order('created_at', { ascending: true })
     if (error) throw error
 
-    // Agrupar por fecha
     const grouped: Record<string,{creadas:number;completadas:number}> = {}
     data!.forEach(t => {
-      const d = t.created_at.split('T')[0]
+      const d = (t.created_at ?? '').split('T')[0]
       if (!grouped[d]) grouped[d] = { creadas:0, completadas:0 }
       grouped[d].creadas++
       if (t.completada) grouped[d].completadas++

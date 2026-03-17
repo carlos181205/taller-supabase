@@ -76,7 +76,7 @@ export function TaskItem({ tarea, onActualizar, onEliminar, onEditar }: Props) {
       ) : (
         /* ── Modo visualización ── */
         <div style={{ display:'flex', gap:'1rem', alignItems:'center' }}>
-          <input type="checkbox" checked={tarea.completada}
+          <input type="checkbox" checked={tarea.completada ?? undefined}
             onChange={() => onActualizar(tarea.id, !tarea.completada)}
             style={{ width:'16px', height:'16px', cursor:'pointer', flexShrink:0 }} />
 
